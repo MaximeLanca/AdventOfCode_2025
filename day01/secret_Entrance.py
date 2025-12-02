@@ -1,66 +1,37 @@
-
 def saves_data_in_list():
-    data_list = []
-    file = open("day01/data.txt","r")
-    line = file.readline()
+    with open("day01/data.txt", "r") as f:
+        return [line.strip() for line in f]
 
-    while line != "":
-        data_list.append(line.replace("\n",""))
-        line = file.readline()
 
-    return data_list
+def parse_sequences():
+    sequences = saves_data_in_list()
+    parsed = []
+
+    for seq in sequences:
+        direction = seq[0]
+        number = int(seq[1:])
+        parsed.append((direction, number))
+
+    return parsed
 
 
 def set_the_dial():
-    dial_position = 0
-    zero_number = 0
-    dial_direction_and_number = set_dial_direction_and_number()
-    #print(dial_direction_and_number)
+    position = 50
+    zero_count = 0
+    sequences = parse_sequences()
 
-    for sequence in dial_direction_and_number:
-        arrow_direction = sequence[0]
-        sequence_of_number = sequence[1]
-        print (sequence_of_number)
+    for direction, steps in sequences:
+        if direction == "R":
+            position = (position + steps) % 100
+        elif direction == "L":
+            position = (position - steps) % 100
+        else:
+            raise ValueError("Direction inconnue")
 
-    if arrow_direction == "R" :
-        for number in sequence_of_number:
-            dial_position = sequence_of_number + number
-            if dial_position == 0:
-                zero_number += 1 
-            elif dial_position >99 :
+        if position == 0:
+            zero_count += 1
 
-        
-
-def set_dial_direction_and_number():
-    sequence_of_rotation = saves_data_in_list()
-    redefined_sequence_of_rotation = []
-    redefined_data = []
-    redefined_number = []
-
-    for sequence in sequence_of_rotation:
-        arrow_direction = sequence[0]
-        number = int(sequence[1:])
-        if number > 99 :
-            redefined_number = redefine_number(number)
-
-        redefined_sequence_of_rotation.append([arrow_direction,redefined_number])
-
-    return redefined_sequence_of_rotation
-
-def redefine_number(sequence_number):
-    terms_list = []
-
-    while sequence_number > 99:
-        sequence_number = sequence_number - 99
-
-        if sequence_number> 99:
-            terms_list.append(99)
-        elif sequence_number == 0 :
-            terms_list.append(0)
-            return terms_list
-        elif sequence_number < 99:
-            terms_list.append(sequence_number)
-            return terms_list
+    print(f"The password is : {zero_count}")
 
 
 set_the_dial()
