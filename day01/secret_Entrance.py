@@ -13,12 +13,25 @@ def saves_data_in_list():
 
 def set_the_dial():
     dial_position = 0
-    dial_position_and_number = set_dial_positon_and_number()
-    print(dial_position_and_number)
-    #if arrow_direction == "R" :
+    zero_number = 0
+    dial_direction_and_number = set_dial_direction_and_number()
+    #print(dial_direction_and_number)
+
+    for sequence in dial_direction_and_number:
+        arrow_direction = sequence[0]
+        sequence_of_number = sequence[1]
+        print (sequence_of_number)
+
+    if arrow_direction == "R" :
+        for number in sequence_of_number:
+            dial_position = sequence_of_number + number
+            if dial_position == 0:
+                zero_number += 1 
+            elif dial_position >99 :
+
         
 
-def set_dial_positon_and_number():
+def set_dial_direction_and_number():
     sequence_of_rotation = saves_data_in_list()
     redefined_sequence_of_rotation = []
     redefined_data = []
@@ -27,7 +40,6 @@ def set_dial_positon_and_number():
     for sequence in sequence_of_rotation:
         arrow_direction = sequence[0]
         number = int(sequence[1:])
-        print(number)
         if number > 99 :
             redefined_number = redefine_number(number)
 
